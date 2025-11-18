@@ -1,0 +1,29 @@
+==================== 2025-11-17 02:55:46.017789 | b9dbb32a-9849-442c-ab39-a56ab48da572 ====================
+02:55:46.018054 [info ]: Starting dbt LSP server
+02:55:46.018101 [info ]: Connecting to LSP client on port 8000
+02:55:46.018316 [info ]: Successfully connected to LSP client
+02:55:46.018324 [info ]: Creating LSP service...
+02:55:46.062550 [info ]: Creating LSP server...
+02:55:46.062561 [info ]: Starting LSP server...
+02:55:46.294659 [info ]: Cached model count updated: 26 models (estimate)
+02:55:46.396588 [error]: dbt1000: Failed to create template: syntax error: unexpected identifier, expected `,`
+(in <string>:1:1)
+02:55:46.396739 [error]: dbt1502: Failed to render SQL syntax error: unexpected identifier, expected `,`
+(in analyses/dbt_model.sql:1:1)
+  --> analyses/dbt_model.sql:1:1
+02:55:46.397344 [info ]: 
+02:55:46.431173 [info ]: Cached model count updated: 26 models (accurate)
+02:55:48.536719 [debug]: Query executed on node unknown:
+SHOW OBJECTS IN SCHEMA "ANALYTICS"."DBT_LBK" LIMIT 10000
+02:55:49.390452 [warn ]: dbt0101: mismatched input '.' expecting one of 'ABORT', 'ABSENT', 'ACCESS', 'ADD', 'ADMIN', 'AFTER', 'ANALYZE' ...
+  --> analyses/sample_sproc.sql:4:5 (target/compiled/analyses/sample_sproc.sql:4:5)
+02:55:49.428894 [error]: dbt0101: mismatched input '.' expecting one of '{', 'ABORT', 'ABSENT', 'ACCESS', 'ADD', 'ADMIN', 'AFTER' ...
+  --> models/marts/core/dim_parts.sql:8:8 (target/compiled/models/marts/core/dim_parts.sql:3:8)
+02:55:50.625624 [debug]: Query executed on node analysis.analytics.test:
+SELECT
+    f.value::INT AS number_in_array
+FROM
+    TABLE(FLATTEN(input => ARRAY_GENERATE_RANGE(1,5))) f
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","connection_name":""} */
+02:55:50.626157 [info ]: {<agate.Row: (1)>: undefined, <agate.Row: (2)>: undefined, <agate.Row: (3)>: undefined, <agate.Row: (4)>: undefined}
+02:55:50.661639 [info ]: Cached model count updated: 26 models (accurate)

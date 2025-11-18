@@ -1,0 +1,1 @@
+select * from analytics.dbt_lbk.raw_orders

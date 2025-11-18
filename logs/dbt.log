@@ -1,0 +1,1696 @@
+{"data":{"log_version":3,"version":"2.0.0-preview.45"},"info":{"category":"","code":"","extra":{},"invocation_id":"019a08ea-534d-70d3-8edd-5404abc9bd31","level":"info","msg":"dbt-fusion 2.0.0-preview.45","name":"Unknown","pid":9048,"thread":"tokio-runtime-worker","ts":"2025-10-21T22:36:05.853140Z"}}
+{"data":{"log_version":3,"version":"2.0.0-preview.45"},"info":{"category":"","code":"","extra":{},"invocation_id":"019a08ea-534d-70d3-8edd-5404abc9bd31","level":"info","msg":"   Loading ~/.dbt/profiles.yml","name":"Unknown","pid":9048,"thread":"tokio-runtime-worker","ts":"2025-10-21T22:36:05.867690Z"}}
+{"data":{"log_version":3,"version":"2.0.0-preview.45"},"info":{"category":"","code":"","extra":{},"invocation_id":"019a08ea-534d-70d3-8edd-5404abc9bd31","level":"info","msg":"   Loading packages.yml","name":"Unknown","pid":9048,"thread":"tokio-runtime-worker","ts":"2025-10-21T22:36:06.100786Z"}}
+{"data":{"log_version":3,"version":"2.0.0-preview.45"},"info":{"category":"","code":"1007","extra":{},"invocation_id":"019a08ea-534d-70d3-8edd-5404abc9bd31","level":"error","msg":"error: dbt1007: Compare command requires a state manifest (via --state, --defer-state, or dbt Cloud)","name":"Generic","pid":9048,"thread":"tokio-runtime-worker","ts":"2025-10-21T22:36:06.315471Z"}}
+{"data":{"completed_at":"2025-10-21T22:36:06.430132Z","elapsed":0.5819429755210876,"log_version":3,"success":false,"version":"2.0.0-preview.45"},"info":{"category":"","code":"Q039","extra":{},"invocation_id":"019a08ea-534d-70d3-8edd-5404abc9bd31","level":"info","msg":"\n==================== Execution Summary =====================\nFinished 'compare' with 1 error for target 'dev' [581ms]","name":"CommandCompleted","pid":9048,"thread":"tokio-runtime-worker","ts":"2025-10-21T22:36:06.430824Z"}}
+==================== 2025-11-05 04:34:46.201177 | 019a524b-bb36-7971-a1d6-6f4ff7539ce6 ====================
+dbt-fusion 2.0.0-preview.57
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+04:34:46.351703 [warn ]: dbt1049: Python models are not currently supported
+  --> models/my_python_model.py
+04:34:53.546515 [debug]: Query executed on node unknown:
+show terse schemas in database analytics
+    limit 10000
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","connection_name":""} */
+04:34:54.832530 [debug]: Query executed on node model.analytics.part_suppliers:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.part_suppliers"} */
+04:34:55.110701 [debug]: Query executed on node model.analytics.part_suppliers:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "part_suppliers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.part_suppliers"} */
+04:34:55.445768 [debug]: Query executed on node model.analytics.part_suppliers:
+SHOW OBJECTS IN SCHEMA "ANALYTICS"."DBT_LBK" LIMIT 10000
+04:34:56.381453 [debug]: Query executed on node model.analytics.part_suppliers:
+create or replace   view analytics.dbt_lbk.part_suppliers
+  
+   as (
+    with part as (
+    
+    select * from analytics.dbt_lbk.stg_tpch_parts
+
+),
+
+supplier as (
+
+    select * from analytics.dbt_lbk.stg_tpch_suppliers
+
+),
+
+part_supplier as (
+
+    select * from analytics.dbt_lbk.stg_tpch_part_suppliers
+
+),
+
+final as (
+    select 
+
+    part_supplier.part_supplier_key,
+    part.part_key,
+    part.name as part_name,
+    part.manufacturer,
+    part.brand,
+    part.type as part_type,
+    part.size as part_size,
+    part.container,
+    part.retail_price,
+
+    supplier.supplier_key,
+    supplier.supplier_name,
+    supplier.supplier_address,
+    supplier.phone_number,
+    supplier.account_balance,
+    supplier.nation_key,
+
+    part_supplier.available_quantity,
+    part_supplier.cost
+from
+    part 
+inner join 
+    part_supplier
+        on part.part_key = part_supplier.part_key
+inner join
+    supplier
+        on part_supplier.supplier_key = supplier.supplier_key
+order by
+    part.part_key
+)
+
+select * from final
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.part_suppliers"} */
+ Succeeded [  2.67s] model dbt_lbk.part_suppliers (view)
+04:34:56.479893 [info ]: 
+==================== Execution Summary =====================
+Finished 'run' with 1 warning for target 'dev' [10.3s]
+Processed: 1 model
+Summary: 1 total | 1 success
+==================== 2025-11-05 04:35:11.653663 | 019a524c-1ea3-71e2-86fd-ff877b2df05a ====================
+dbt-fusion 2.0.0-preview.57
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+04:35:11.800043 [warn ]: dbt1049: Python models are not currently supported
+  --> models/my_python_model.py
+04:35:12.182489 [info ]: 
+==================== Execution Summary =====================
+Finished 'run' with 1 warning for target 'dev' [528ms]
+==================== 2025-11-05 04:35:35.392720 | 019a524c-7b58-75a1-a21d-80df6b7aeb9f ====================
+dbt-fusion 2.0.0-preview.57
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+04:35:35.580120 [warn ]: dbt1049: Python models are not currently supported
+  --> models/my_python_model.py
+04:35:35.979074 [info ]: 
+==================== Execution Summary =====================
+Finished 'run' with 1 warning for target 'dev' [586ms]
+==================== 2025-11-05 04:36:04.319672 | 019a524c-ec55-74d0-868a-f3cc047d2b09 ====================
+04:36:05.790247 [info ]: 
+==================== Execution Summary =====================
+Finished 'system' successfully [1.5s]
+==================== 2025-11-05 04:36:29.823466 | 019a524d-4ff5-7470-91a7-18230a671dff ====================
+dbt-fusion 2.0.0-preview.57
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+04:36:30.077303 [warn ]: dbt1049: Python models are not currently supported
+  --> models/my_python_model.py
+04:36:30.526518 [info ]: 
+==================== Execution Summary =====================
+Finished 'run' with 1 warning for target 'dev' [703ms]
+==================== 2025-11-05 04:36:37.689548 | 019a524d-6eb8-7a21-9dfc-1cd302ddcb36 ====================
+dbt-fusion 2.0.0-preview.57
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+04:36:37.840231 [warn ]: dbt1049: Python models are not currently supported
+  --> models/my_python_model.py
+04:36:38.186192 [info ]: 
+==================== Execution Summary =====================
+Finished 'run' with 1 warning for target 'dev' [496ms]
+==================== 2025-11-05 04:38:56.491782 | 019a524f-8cdf-7f53-a459-df49a583e37f ====================
+04:39:03.914769 [info ]: 
+==================== Execution Summary =====================
+Finished 'system' successfully [7.4s]
+==================== 2025-11-05 04:39:09.902692 | 019a524f-c14c-73b3-b329-ae929105171b ====================
+dbt-fusion 2.0.0-preview.60
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+04:39:10.182836 [error]: dbt1000: dbt allows exactly one model defined per python file, found 0
+  --> models/my_python_model.py
+04:39:10.364760 [info ]: 
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [462ms]
+==================== 2025-11-05 04:39:19.717921 | 019a524f-e7a5-7970-a9db-84f9de6cc281 ====================
+dbt-fusion 2.0.0-preview.60
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+04:39:25.548032 [debug]: Query executed on node unknown:
+show terse schemas in database analytics
+    limit 10000
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","connection_name":""} */
+04:39:26.774060 [debug]: Query executed on node model.analytics.my_python_model:
+SHOW OBJECTS IN SCHEMA "ANALYTICS"."DBT_LBK" LIMIT 10000
+04:39:27.841335 [debug]: Query executed on node model.analytics.my_python_model:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.my_python_model"} */
+04:39:27.841817 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "my_python_model", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+04:39:28.562932 [debug]: Query executed on node model.analytics.my_python_model:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "my_python_model", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.my_python_model"} */
+04:39:28.564653 [debug]: Writing runtime python for node "model.analytics.my_python_model"
+04:39:33.101011 [debug]: Query executed on node model.analytics.my_python_model:
+CREATE OR REPLACE PROCEDURE analytics.dbt_lbk.my_python_model__dbt_sp ()
+
+RETURNS STRING
+LANGUAGE PYTHON
+RUNTIME_VERSION = '3.11'
+PACKAGES = ('snowflake-snowpark-python')
+
+
+
+HANDLER = 'main'
+EXECUTE AS CALLER
+AS
+$$
+
+  
+    
+
+def model(dbt, session):
+    # Reference another model
+    customers_df = dbt.ref('stg_tpch_customers')
+
+    # Configure the model
+    dbt.config(
+        materialized='table',
+        tags=['python', 'data_science']
+    )
+
+    # Simple transformation: return the customers table
+    return customers_df
+
+# This part is user provided model code
+# you will need to copy the next section to run the code
+# COMMAND ----------
+# this part is dbt logic for get ref work, do not modify
+
+#
+#
+#
+def ref(*args, **kwargs):
+    refs = {"stg_tpch_customers":"analytics.dbt_lbk.stg_tpch_customers"}
+    key = '.'.join(args)
+    version = kwargs.get("v") or kwargs.get("version")
+    if version:
+        key += f".v{version}"
+    dbt_load_df_function = kwargs.get("dbt_load_df_function")
+    return dbt_load_df_function(refs[key])
+
+
+def source(*args, dbt_load_df_function):
+    sources = {}
+    key = '.'.join(args)
+    return dbt_load_df_function(sources[key])
+
+
+config_dict = {}
+
+
+class config:
+    def __init__(self, *args, **kwargs):
+        pass
+
+    @staticmethod
+    def get(key, default=None):
+        return config_dict.get(key, default)
+
+class this:
+    """dbt.this() or dbt.this.identifier"""
+    database = "analytics"
+    schema = "dbt_lbk"
+    identifier = "my_python_model"
+    
+    def __repr__(self):
+        return 'analytics.dbt_lbk.my_python_model'
+
+
+class dbtObj:
+    def __init__(self, load_df_function) -> None:
+        self.source = lambda *args: source(*args, dbt_load_df_function=load_df_function)
+        self.ref = lambda *args, **kwargs: ref(*args, **kwargs, dbt_load_df_function=load_df_function)
+        self.config = config
+        self.this = this()
+        self.is_incremental = False
+
+# COMMAND ----------
+
+
+
+
+
+def materialize(session, df, target_relation):
+    # make sure pandas exists
+    import importlib.util
+    package_name = 'pandas'
+    if importlib.util.find_spec(package_name):
+        import pandas
+        if isinstance(df, pandas.core.frame.DataFrame):
+            session.use_database(target_relation.database)
+            session.use_schema(target_relation.schema)
+            # session.write_pandas does not have overwrite function
+            df = session.createDataFrame(df)
+    
+    df.write.mode("overwrite").save_as_table('analytics.dbt_lbk.my_python_model', table_type='transient')
+
+
+def main(session):
+    dbt = dbtObj(session.table)
+    df = model(dbt, session)
+    materialize(session, df, dbt.this)
+    return "OK"
+
+
+  
+$$
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.my_python_model"} */
+04:39:37.117545 [debug]: Query executed on node model.analytics.my_python_model:
+
+CALL analytics.dbt_lbk.my_python_model__dbt_sp()
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.my_python_model"} */
+04:39:37.767052 [debug]: Query executed on node model.analytics.my_python_model:
+
+DROP PROCEDURE IF EXISTS analytics.dbt_lbk.my_python_model__dbt_sp()
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.my_python_model"} */
+ Succeeded [ 10.99s] model dbt_lbk.my_python_model (table)
+04:39:37.875575 [info ]: 
+==================== Execution Summary =====================
+Finished 'run' successfully for target 'dev' [18.2s]
+Processed: 1 model
+Summary: 1 total | 1 success
+==================== 2025-11-05 05:01:57.332348 | 019a5264-9ec5-7d01-b7c1-76c1e5f5bbad ====================
+dbt-fusion 2.0.0-preview.60
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+05:01:59.302464 [debug]: Query executed on node unknown:
+select * from (select 1) limit 10
+
+Query show_sql_operation_inline
+┌───┐
+│ 1 │
+╞═══╡
+│ 1 │
+└───┘
+1 rows.
+
+
+select 1
+05:01:59.670568 [info ]: 
+==================== Execution Summary =====================
+Finished 'show' successfully for target 'dev' [2.3s]
+==================== 2025-11-05 05:02:11.871498 | 019a5264-d791-7310-b1ec-7646edd0829b ====================
+dbt-fusion 2.0.0-preview.60
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+
+
+select 1
+05:02:12.594322 [info ]: 
+==================== Execution Summary =====================
+Finished 'compile' successfully for target 'dev' [722ms]
+Processed: 1 model
+Summary: 1 total | 1 success
+==================== 2025-11-05 05:02:20.388648 | 019a5264-f8e3-7813-838e-adec1d849f71 ====================
+dbt-fusion 2.0.0-preview.60
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+05:02:20.823407 [error]: dbt0101: mismatched input '[33m{[0m' expecting one of <EOF>, '[33mALTER[0m', '[33mANALYZE[0m', '[33mBEGIN[0m', '[33mCALL[0m', '[33mCOMMENT[0m', '[33mCOMMIT[0m' ...
+  --> target/inline_9c3ce3fc.sql:1:1 (target/compiled/inline_9c3ce3fc.sql:1:1)
+
+
+{'account': 'zna84829', 'authenticator': none, 'client_session_keep_alive': false, 'connect_retries': 1, 'connect_timeout': none, 'database': 'analytics', 'host': none, 'insecure_mode': false, 'name': 'dev', 'oauth_client_id': none, 'port': none, 'profile_name': 'analytics', 'protocol': none, 'proxy_host': none, 'proxy_port': none, 'query_tag': none, 'request_timeout': none, 'retry_all': false, 'retry_on_database_errors': false, 'reuse_connections': none, 'role': 'transformer', 's3_stage_vpce_dns_name': none, 'schema': 'dbt_lbk', 'target_name': 'dev', 'threads': 16, 'type': 'snowflake', 'user': 'lee@fishtownanalytics.com', 'warehouse': 'transforming'}
+05:02:20.937966 [info ]: 
+==================== Execution Summary =====================
+Finished 'compile' with 1 error for target 'dev' [549ms]
+Processed: 1 model
+Summary: 1 total | 1 error
+==================== 2025-11-05 05:04:04.889131 | 019a5266-910f-7872-aeb2-c01fce979d6d ====================
+dbt-fusion 2.0.0-preview.60
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+05:04:05.375310 [warn ]: dbt1000: Unit tests require (currently) sql-analysis to be static or dynamic.
+05:04:05.515361 [warn ]: dbt1000: Skipping unit_tests for models with detected '[33munsafe[0m' and '[33mstatic_analysis[0m' set to '[33moff[0m': '[33munit_test.analytics.customer_tier.tiers_are_working[0m'
+
+
+{'account': 'zna84829', 'authenticator': none, 'client_session_keep_alive': false, 'connect_retries': 1, 'connect_timeout': none, 'database': 'analytics', 'host': none, 'insecure_mode': false, 'name': 'dev', 'oauth_client_id': none, 'port': none, 'profile_name': 'analytics', 'protocol': none, 'proxy_host': none, 'proxy_port': none, 'query_tag': none, 'request_timeout': none, 'retry_all': false, 'retry_on_database_errors': false, 'reuse_connections': none, 'role': 'transformer', 's3_stage_vpce_dns_name': none, 'schema': 'dbt_lbk', 'target_name': 'dev', 'threads': 16, 'type': 'snowflake', 'user': 'lee@fishtownanalytics.com', 'warehouse': 'transforming'}
+05:04:05.590683 [info ]: 
+==================== Execution Summary =====================
+Finished 'compile' with 2 warnings for target 'dev' [701ms]
+Processed: 1 model
+Summary: 1 total | 1 success
+{"data":{"msg":""},"info":{"category":"","code":"I062","extra":{},"invocation_id":"019a55d1-7b08-7933-8283-4cb594fc6bf6","level":"info","msg":"","name":"JinjaLogInfo","pid":41134,"thread":"tokio-runtime-worker","ts":"2025-11-05T20:59:43.535090Z"}}
+{"data":{"log_version":3,"version":"2.0.0-preview.60"},"info":{"category":"","code":"","extra":{},"invocation_id":"019a55d1-7b08-7933-8283-4cb594fc6bf6","level":"info","msg":" Rendering analyses/test.sql","name":"CompileResource","pid":41134,"thread":"tokio-runtime-worker","ts":"2025-11-05T20:59:43.738029Z"}}
+{"data":{"log_version":3,"node_info":{"unique_id":"analysis.analytics.test"},"sql":"select 1,2,3 as test\n/* {\"app\":\"dbt\",\"dbt_version\":\"2.0.0\",\"profile_name\":\"analytics\",\"target_name\":\"dev\",\"connection_name\":\"\"} */","version":"2.0.0-preview.60"},"info":{"category":"","code":"E017","extra":{},"invocation_id":"019a55d1-7b08-7933-8283-4cb594fc6bf6","level":"debug","msg":"-- created_at: 2025-11-05T20:59:44.916069+00:00\n-- finished_at: 2025-11-05T20:59:45.145242+00:00\n-- elapsed: 229ms\n-- outcome: success\n-- dialect: snowflake\n-- node_id: analysis.analytics.test\n-- query_id: 01c0320b-0809-f716-0004-7d8325381fb6\n-- desc: execute adapter call\nselect 1,2,3 as test\n/* {\"app\":\"dbt\",\"dbt_version\":\"2.0.0\",\"profile_name\":\"analytics\",\"target_name\":\"dev\",\"connection_name\":\"\"} */;","name":"SQLQuery","pid":41134,"thread":"tokio-runtime-worker","ts":"2025-11-05T20:59:45.145255Z"}}
+{"data":{"msg":"{<agate.Row: (1, 2, 3)>: undefined}"},"info":{"category":"","code":"I062","extra":{},"invocation_id":"019a55d1-7b08-7933-8283-4cb594fc6bf6","level":"info","msg":"{<agate.Row: (1, 2, 3)>: undefined}","name":"JinjaLogInfo","pid":41134,"thread":"tokio-runtime-worker","ts":"2025-11-05T20:59:45.145882Z"}}
+{"data":{"log_version":3,"version":"2.0.0-preview.60"},"info":{"category":"","code":"","extra":{},"invocation_id":"019a55d1-7b08-7933-8283-4cb594fc6bf6","level":"info","msg":"Previewing analysis (analysis.analytics.test)","name":"ShowNode","pid":41134,"thread":"tokio-runtime-worker","ts":"2025-11-05T20:59:45.147334Z"}}
+{"data":{"log_version":3,"sql":"\n\n\n\n\n\n\n\n\n\n\n\n(<agate.Column: (1)>, <agate.Column: (2)>, <agate.Column: (3)>, )\n limit 1000","version":"2.0.0-preview.60"},"info":{"category":"","code":"E017","extra":{},"invocation_id":"019a55d1-7b08-7933-8283-4cb594fc6bf6","level":"debug","msg":"-- created_at: 2025-11-05T20:59:46.262012+00:00\n-- finished_at: 2025-11-05T20:59:46.585101+00:00\n-- elapsed: 323ms\n-- outcome: error\n-- error message: Error { message: \"[Snowflake] 001003 (42000): SQL compilation error:\\nsyntax error line 13 at position 1 unexpected '<'.\\nsyntax error line 13 at position 19 unexpected '>'.\", status: Internal, vendor_code: 1003, sqlstate: [52, 50, 48, 48, 48], details: None }\n-- dialect: snowflake\n-- node_id: not available\n-- query_id: not available\n-- desc: dbt run query\n\n\n\n\n\n\n\n\n\n\n\n\n(<agate.Column: (1)>, <agate.Column: (2)>, <agate.Column: (3)>, )\n limit 1000;","name":"SQLQuery","pid":41134,"thread":"tokio-runtime-worker","ts":"2025-11-05T20:59:46.585116Z"}}
+{"data":{"log_version":3,"version":"2.0.0-preview.60"},"info":{"category":"","code":"","extra":{},"invocation_id":"019a55d1-7b08-7933-8283-4cb594fc6bf6","level":"error","msg":"error: dbt1000: Internal: [Snowflake] 001003 (42000): SQL compilation error:\nsyntax error line 13 at position 1 unexpected '<'.\nsyntax error line 13 at position 19 unexpected '>'. (sqlstate: [52, 50, 48, 48, 48], vendor_code: 1003)","name":"Generic","pid":41134,"thread":"tokio-runtime-worker","ts":"2025-11-05T20:59:46.966531Z"}}
+{"data":{"completed_at":"2025-11-05T20:59:47.048713Z","elapsed":3.8058550357818604,"log_version":3,"success":false,"version":"2.0.0-preview.60"},"info":{"category":"","code":"Q039","extra":{},"invocation_id":"019a55d1-7b08-7933-8283-4cb594fc6bf6","level":"info","msg":"\n==================== Execution Summary =====================\nFinished 'show' with 1 error for target 'dev' [3.8s]","name":"CommandCompleted","pid":41134,"thread":"tokio-runtime-worker","ts":"2025-11-05T20:59:47.048792Z"}}
+==================== 2025-11-05 21:09:54.392258 | 019a55da-ce52-7e63-aea5-8566e5114abf ====================
+dbt-fusion 2.0.0-preview.60
+   Loading ~/.dbt/profiles.yml
+   Loading packages.yml
+21:09:54.857499 [info ]: 
+21:09:56.486632 [debug]: Query executed on node unknown:
+SHOW OBJECTS IN SCHEMA "ANALYTICS"."DBT_LBK" LIMIT 10000
+21:10:03.318256 [debug]: Query executed on node unknown:
+show terse schemas in database analytics
+    limit 10000
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","connection_name":""} */
+21:10:04.532563 [debug]: Query executed on node model.analytics.stg_tpch_orders:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_orders"} */
+21:10:04.533102 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_orders", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:05.263567 [debug]: Query executed on node model.analytics.stg_tpch_orders:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_orders", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_orders"} */
+21:10:05.265448 [debug]: Writing runtime sql for node "model.analytics.stg_tpch_orders"
+21:10:05.474749 [debug]: Query executed on node model.analytics.stg_movie_reviews:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_movie_reviews"} */
+21:10:05.475110 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_movie_reviews", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:05.767245 [debug]: Query executed on node model.analytics.stg_movie_reviews:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_movie_reviews", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_movie_reviews"} */
+21:10:05.768905 [debug]: Writing runtime sql for node "model.analytics.stg_movie_reviews"
+21:10:06.076494 [debug]: Query executed on node model.analytics.stg_tpch_orders:
+create or replace   view analytics.dbt_lbk.stg_tpch_orders
+  
+   as (
+    
+with source as (
+
+    select * from raw.tpch_now.orders
+
+),
+
+rename as (
+
+    select
+    
+        o_orderkey as order_key,
+        o_custkey as customer_key,
+        o_orderstatus as status_code,
+        o_totalprice as total_price,
+        o_orderdate as order_date,
+        o_ordertime as order_time,
+        o_orderpriority as priority_code,
+        o_clerk as clerk_name,
+        o_shippriority as ship_priority,
+        o_comment as comment
+
+    from source
+
+)
+
+select * from rename
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_orders"} */
+ Succeeded [  2.67s] model dbt_lbk.stg_tpch_orders (view)
+21:10:06.103687 [debug]: Query executed on node model.analytics.stg_tpch_customers:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_customers"} */
+21:10:06.104148 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_customers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:06.402480 [debug]: Query executed on node model.analytics.stg_tpch_customers:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_customers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_customers"} */
+21:10:06.404335 [debug]: Writing runtime sql for node "model.analytics.stg_tpch_customers"
+21:10:06.716792 [debug]: Query executed on node model.analytics.stg_movie_reviews:
+create or replace   view analytics.dbt_lbk.stg_movie_reviews
+  
+   as (
+    with 
+
+source as (
+
+    select * from analytics.raw.raw_movie_reviews
+
+),
+
+renamed as (
+
+    select
+        id as movie_review_id,
+        movie_id,
+        response_time as review_time,
+        review_text as review_txt,
+    case 
+        when sentiment_value = 0 then -1
+        else 1
+    end as actual_sentiment
+
+    from source
+
+)
+
+select * from renamed
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_movie_reviews"} */
+ Succeeded [  3.31s] model dbt_lbk.stg_movie_reviews (view)
+21:10:06.952092 [debug]: Query executed on node model.analytics.raw_orders:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.raw_orders"} */
+21:10:06.952449 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "raw_orders", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:07.499730 [debug]: Query executed on node model.analytics.stg_tpch_customers:
+create or replace   view analytics.dbt_lbk.stg_tpch_customers
+  
+   as (
+    
+
+with source as (
+
+    select * from raw.tpch_sf001.customer
+
+),final as (
+
+    select
+    
+        c_custkey as customer_key,
+        c_name as name,
+        c_address as address, 
+        c_nationkey as nation_key,
+        c_phone as phone_number,
+        c_acctbal as account_balance,
+        c_mktsegment as market_segment,
+        c_comment as comment
+
+    from source
+
+)
+
+select * from final
+
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_customers"} */
+ Succeeded [  4.09s] model dbt_lbk.stg_tpch_customers (view)
+21:10:07.558793 [debug]: Query executed on node model.analytics.stg_tpch_regions:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_regions"} */
+21:10:07.559155 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_regions", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:07.598114 [debug]: Query executed on node model.analytics.raw_orders:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "raw_orders", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.raw_orders"} */
+21:10:07.599986 [debug]: Writing runtime sql for node "model.analytics.raw_orders"
+21:10:07.881397 [debug]: Query executed on node model.analytics.stg_tpch_regions:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_regions", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_regions"} */
+21:10:07.883042 [debug]: Writing runtime sql for node "model.analytics.stg_tpch_regions"
+21:10:08.119310 [debug]: Query executed on node model.analytics.stg_tpch_suppliers:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_suppliers"} */
+21:10:08.119723 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_suppliers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:08.458132 [debug]: Query executed on node model.analytics.stg_tpch_suppliers:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_suppliers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_suppliers"} */
+21:10:08.459834 [debug]: Writing runtime sql for node "model.analytics.stg_tpch_suppliers"
+21:10:08.720543 [debug]: Query executed on node model.analytics.stg_tpch_parts:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_parts"} */
+21:10:08.720859 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_parts", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:08.724897 [debug]: Query executed on node model.analytics.stg_tpch_regions:
+create or replace   view analytics.dbt_lbk.stg_tpch_regions
+  
+   as (
+    with source as (
+
+    select * from raw.tpch_sf001.region
+
+),
+
+renamed as (
+
+    select
+        r_regionkey as region_key,
+        r_name as name,
+        r_comment as comment
+
+    from source
+
+)
+
+select * from renamed
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_regions"} */
+ Succeeded [  5.32s] model dbt_lbk.stg_tpch_regions (view)
+21:10:09.001315 [debug]: Query executed on node model.analytics.stg_tpch_parts:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_parts", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_parts"} */
+21:10:09.003196 [debug]: Writing runtime sql for node "model.analytics.stg_tpch_parts"
+21:10:09.085780 [debug]: Query executed on node model.analytics.raw_orders:
+create or replace transient  table analytics.dbt_lbk.raw_orders
+    
+    
+    
+    as (
+
+select
+    1 as order_id,
+    1 as customer_id,
+    'cancelled' as status,
+    cast('2018-01-01' as date) as order_date,
+    cast('2018-01-01' as date) as modified_at
+
+union select
+    2 as order_id,
+    1 as customer_id,
+    'completed' as status,
+    cast('2018-01-02' as date) as order_date,
+    cast('2018-01-02' as date) as modified_at
+
+-- -- add a new record
+union select
+    '3' as order_id,
+    '2' as customer_id,
+    'completed' as status,
+    cast('2018-01-03' as date) as order_date,
+    cast('2018-01-04' as date) as modified_at
+
+-- -- -- add a record that conflicts with a previous order_id
+-- union select
+--     '1' as order_id,
+--     '1' as customer_id,
+--     'completed' as status,
+--     cast('2018-01-01' as date) as order_date,
+--     cast('2018-01-04' as date) as modified_at
+    )
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.raw_orders"} */
+ Succeeded [  5.68s] model dbt_lbk.raw_orders (table)
+21:10:09.290250 [debug]: Query executed on node model.analytics.stg_tpch_suppliers:
+create or replace   view analytics.dbt_lbk.stg_tpch_suppliers
+  
+   as (
+    with source as (
+
+    select * from raw.tpch_sf001.supplier
+
+),
+
+renamed as (
+
+    select
+    
+        s_suppkey as supplier_key,
+        s_name as supplier_name,
+        s_address as supplier_address,
+        s_nationkey as nation_key,
+        s_phone as phone_number,
+        s_acctbal as account_balance,
+        s_comment as comment
+
+    from source
+
+)
+
+select * from renamed
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_suppliers"} */
+ Succeeded [  5.88s] model dbt_lbk.stg_tpch_suppliers (view)
+21:10:09.437443 [debug]: Query executed on node model.analytics.stg_tpch_nations:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_nations"} */
+21:10:09.437610 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_nations", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:09.454235 [debug]: Query executed on node model.analytics.stg_tpch_parts:
+create or replace   view analytics.dbt_lbk.stg_tpch_parts
+  
+   as (
+    with source as (
+
+    select * from raw.tpch_sf001.part
+
+),
+
+renamed as (
+
+    select
+    
+        p_partkey as part_key,
+        p_name as name,
+        p_mfgr as manufacturer,
+        p_brand as brand,
+        p_type as type,
+        p_size as size,
+        p_container as container,
+        p_retailprice as retail_price,
+        p_comment as comment
+
+    from source
+
+)
+
+select * from renamed
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_parts"} */
+ Succeeded [  6.05s] model dbt_lbk.stg_tpch_parts (view)
+21:10:09.688940 [debug]: Query executed on node model.analytics.stg_tpch_nations:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_nations", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_nations"} */
+21:10:09.690760 [debug]: Writing runtime sql for node "model.analytics.stg_tpch_nations"
+21:10:09.697472 [debug]: Query executed on node model.analytics.dim_parts:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_parts"} */
+21:10:09.697800 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "dim_parts", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_movie_reviews", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}' after materialization.
+21:10:09.993283 [debug]: Query executed on node model.analytics.dim_parts:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "dim_parts", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_parts"} */
+21:10:09.994313 [debug]: Writing runtime sql for node "model.analytics.dim_parts"
+21:10:10.005277 [debug]: Query executed on node model.analytics.materialization_incremental:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.materialization_incremental"} */
+21:10:10.005399 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "materialization_incremental", "dbt_materialization_type": "incremental", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:10.402400 [debug]: Query executed on node model.analytics.materialization_incremental:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "materialization_incremental", "dbt_materialization_type": "incremental", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.materialization_incremental"} */
+21:10:10.403483 [debug]: Invalid value for on_schema_change (none) specified. Setting default value of ignore.
+21:10:10.404797 [debug]: Writing runtime sql for node "model.analytics.materialization_incremental"
+21:10:10.691127 [debug]: Query executed on node model.analytics.stg_tpch_nations:
+create or replace   view analytics.dbt_lbk.stg_tpch_nations
+  
+   as (
+    with source as (
+
+    select * from raw.tpch_sf001.nation
+
+),
+
+renamed as (
+
+    select
+    
+        n_nationkey as nation_key,
+        n_name as name,
+        n_regionkey as region_key,
+        n_comment as comment
+
+    from source
+
+)
+
+select * from renamed
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_nations"} */
+ Succeeded [  7.28s] model dbt_lbk.stg_tpch_nations (view)
+21:10:10.799981 [debug]: Query executed on node model.analytics.stg_tpch_part_suppliers:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_part_suppliers"} */
+21:10:10.800304 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_part_suppliers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:10.827534 [debug]: Query executed on node model.analytics.dim_parts:
+create or replace   view analytics.dbt_lbk.dim_parts
+  
+   as (
+    
+
+with part as (
+
+    select * from analytics.dbt_lbk.stg_tpch_parts
+
+),
+
+final as (
+    select 
+        part_key,
+        manufacturer,
+        name,
+        brand,
+        type,
+        size,
+        container,
+        retail_price
+    from
+        part
+)
+select *
+from final  
+order by part_key
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_parts"} */
+21:10:11.102161 [debug]: Query executed on node model.analytics.stg_tpch_part_suppliers:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_part_suppliers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_part_suppliers"} */
+21:10:11.105029 [debug]: Writing runtime sql for node "model.analytics.stg_tpch_part_suppliers"
+21:10:11.132777 [debug]: Query executed on node model.analytics.dim_parts:
+grant select on analytics.dbt_lbk.dim_parts to dashboard_user
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_parts"} */
+ Succeeded [  1.68s] model dbt_lbk.dim_parts (view)
+21:10:11.440944 [debug]: Query executed on node model.analytics.stg_tpch_line_items:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_line_items"} */
+21:10:11.441339 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_line_items", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:11.622910 [debug]: Query executed on node model.analytics.stg_tpch_part_suppliers:
+create or replace   view analytics.dbt_lbk.stg_tpch_part_suppliers
+  
+   as (
+    with source as (
+
+    select * from raw.tpch_sf001.partsupp
+
+),
+
+renamed as (
+
+    select
+    
+        md5(cast(coalesce(cast(ps_partkey as TEXT), '_dbt_utils_surrogate_key_null_') || '-' || coalesce(cast(ps_suppkey as TEXT), '_dbt_utils_surrogate_key_null_') as TEXT)) 
+                as part_supplier_key,
+        ps_partkey as part_key,
+        ps_suppkey as supplier_key,
+        ps_availqty as available_quantity,
+        ps_supplycost as cost,
+        ps_comment as comment
+
+    from source
+
+)
+
+select * from renamed
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_part_suppliers"} */
+ Succeeded [  8.21s] model dbt_lbk.stg_tpch_part_suppliers (view)
+21:10:11.632640 [debug]: Query executed on node model.analytics.materialization_incremental:
+create or replace transient  table analytics.dbt_lbk.materialization_incremental
+    
+    
+    
+    as (
+
+with source as (
+
+    select * from raw.tpch_sf001.customer
+
+),
+
+
+renamed as (
+
+    select
+        c_custkey as customer_key,
+        c_name as name,
+        c_address as address, 
+        c_nationkey as nation_key,
+        c_phone as phone_number,
+        c_acctbal as account_balance,
+        c_mktsegment as market_segment,
+        c_comment as comment
+
+    from source
+
+)
+
+select * from renamed
+
+
+    )
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.materialization_incremental"} */
+21:10:11.633200 [debug]: Applying DROP to: analytics.dbt_lbk.materialization_incremental__dbt_tmp
+21:10:11.686175 [debug]: Query executed on node model.analytics.stg_tpch_line_items:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_line_items", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_line_items"} */
+21:10:11.687798 [debug]: Writing runtime sql for node "model.analytics.stg_tpch_line_items"
+21:10:11.875497 [debug]: Query executed on node model.analytics.materialization_incremental:
+drop view if exists analytics.dbt_lbk.materialization_incremental__dbt_tmp cascade
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.materialization_incremental"} */
+ Succeeded [  8.47s] model dbt_lbk.materialization_incremental (incremental)
+21:10:11.883358 [debug]: Query executed on node model.analytics.customer_flags:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.customer_flags"} */
+21:10:11.883720 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "customer_flags", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:12.089554 [debug]: Query executed on node model.analytics.part_suppliers:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.part_suppliers"} */
+21:10:12.089737 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "part_suppliers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_regions", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}' after materialization.
+21:10:12.144230 [debug]: Query executed on node model.analytics.customer_flags:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "customer_flags", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.customer_flags"} */
+21:10:12.147240 [debug]: Writing runtime sql for node "model.analytics.customer_flags"
+21:10:12.356230 [debug]: Query executed on node model.analytics.part_suppliers:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "part_suppliers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.part_suppliers"} */
+21:10:12.357900 [debug]: Writing runtime sql for node "model.analytics.part_suppliers"
+21:10:12.472959 [debug]: Query executed on node model.analytics.customer_tier:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.customer_tier"} */
+21:10:12.473265 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "customer_tier", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:12.716658 [debug]: Query executed on node model.analytics.stg_tpch_line_items:
+create or replace   view analytics.dbt_lbk.stg_tpch_line_items
+  
+   as (
+    with source as (
+
+    select * from raw.tpch_now.lineitem
+
+),
+
+renamed as (
+
+    select
+    
+        md5(cast(coalesce(cast(l_orderkey as TEXT), '_dbt_utils_surrogate_key_null_') || '-' || coalesce(cast(l_linenumber as TEXT), '_dbt_utils_surrogate_key_null_') as TEXT))
+                as order_item_key,
+        l_orderkey as order_key,
+        l_partkey as part_key,
+        l_suppkey as supplier_key,
+        l_linenumber as line_number,
+        l_quantity as quantity,
+        l_extendedprice as extended_price,
+        l_discount as discount_percentage,
+        l_tax as tax_rate,
+        
+        case 
+            when l_returnflag in ('R') then 'returned'
+            when l_returnflag in ('A') then 'accepted'
+            else 'unknown'
+        end as return_flag, 
+
+        case 
+            when return_flag = 'accepted' then false
+            else true
+        end as is_return,
+
+        case l_linestatus 
+            when 'P' then 'returned'
+            when 'F' then 'billed'
+            when 'O' then 'shipped'
+            else null
+        end as status_code,
+        
+        l_shipdate as ship_date,
+        l_commitdate as commit_date,
+        l_receiptdate as receipt_date,
+        l_shipinstruct as ship_instructions,
+        l_shipmode as ship_mode,
+        l_comment as comment
+
+    from source
+
+)
+
+select * from renamed
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.stg_tpch_line_items"} */
+ Succeeded [  9.27s] model dbt_lbk.stg_tpch_line_items (view)
+21:10:12.748622 [debug]: Query executed on node model.analytics.customer_tier:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "customer_tier", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.customer_tier"} */
+21:10:12.750090 [debug]: Writing runtime sql for node "model.analytics.customer_tier"
+21:10:13.285715 [debug]: Query executed on node model.analytics.part_suppliers:
+create or replace   view analytics.dbt_lbk.part_suppliers
+  
+   as (
+    with part as (
+    
+    select * from analytics.dbt_lbk.stg_tpch_parts
+
+),
+
+supplier as (
+
+    select * from analytics.dbt_lbk.stg_tpch_suppliers
+
+),
+
+part_supplier as (
+
+    select * from analytics.dbt_lbk.stg_tpch_part_suppliers
+
+),
+
+final as (
+    select 
+
+    part_supplier.part_supplier_key,
+    part.part_key,
+    part.name as part_name,
+    part.manufacturer,
+    part.brand,
+    part.type as part_type,
+    part.size as part_size,
+    part.container,
+    part.retail_price,
+
+    supplier.supplier_key,
+    supplier.supplier_name,
+    supplier.supplier_address,
+    supplier.phone_number,
+    supplier.account_balance,
+    supplier.nation_key,
+
+    part_supplier.available_quantity,
+    part_supplier.cost
+from
+    part 
+inner join 
+    part_supplier
+        on part.part_key = part_supplier.part_key
+inner join
+    supplier
+        on part_supplier.supplier_key = supplier.supplier_key
+order by
+    part.part_key
+)
+
+select * from final
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.part_suppliers"} */
+ Succeeded [  1.66s] model dbt_lbk.part_suppliers (view)
+21:10:13.408908 [debug]: Query executed on node model.analytics.inc_orders:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.inc_orders"} */
+21:10:13.409253 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "inc_orders", "dbt_materialization_type": "incremental", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:13.608902 [debug]: Query executed on node model.analytics.customer_flags:
+create or replace transient  table analytics.dbt_lbk.customer_flags
+    
+    
+    
+    as (
+
+with customer as (
+
+    select * from analytics.dbt_lbk.stg_tpch_customers
+
+),
+
+    orders as (
+
+    select * from analytics.dbt_lbk.stg_tpch_orders
+
+),
+    
+    final as (
+
+    select
+    
+        customer.customer_key,
+        coalesce(sum(orders.total_price),0) as lifetime_value,
+        iff(lifetime_value > 3000000, 'Y', 'N') as is_high_value,
+        iff(lifetime_value between 1000000 and 2999999, 'Y', 'N') as is_mid_value,
+        iff(lifetime_value between 0 and 999999, 'Y','N') as is_low_value
+
+    from customer
+        inner join orders
+            on customer.customer_key = orders.customer_key
+    group by 1
+)
+
+select * from final
+    )
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.customer_flags"} */
+ Succeeded [  6.11s] model dbt_lbk.customer_flags (table)
+21:10:13.657697 [debug]: Query executed on node model.analytics.dim_suppliers:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_suppliers"} */
+21:10:13.658031 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "dim_suppliers", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:13.710371 [debug]: Query executed on node model.analytics.inc_orders:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "inc_orders", "dbt_materialization_type": "incremental", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.inc_orders"} */
+21:10:13.711341 [debug]: Invalid value for on_schema_change (none) specified. Setting default value of ignore.
+21:10:13.712632 [debug]: Writing runtime sql for node "model.analytics.inc_orders"
+21:10:13.832121 [debug]: Query executed on node model.analytics.dim_customers:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_customers"} */
+21:10:13.832435 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "dim_customers", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'. Will reset to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_parts", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}' after materialization.
+21:10:13.932394 [debug]: Query executed on node model.analytics.dim_suppliers:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "dim_suppliers", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_suppliers"} */
+21:10:13.934296 [debug]: Writing runtime sql for node "model.analytics.dim_suppliers"
+21:10:14.099015 [debug]: Query executed on node model.analytics.dim_customers:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "dim_customers", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_customers"} */
+21:10:14.099846 [debug]: Query executed on node model.analytics.customer_tier:
+create or replace transient  table analytics.dbt_lbk.customer_tier
+    
+    
+    
+    as (
+
+with customer as (
+    select * from analytics.dbt_lbk.stg_tpch_customers
+),
+
+orders as (
+    select * from analytics.dbt_lbk.stg_tpch_orders
+),
+final as (
+    select
+        customer.customer_key,
+        sum(orders.total_price) as lifetime_value,
+        case 
+            when lifetime_value <= 200000 then 'tier1'
+            when lifetime_value > 2000000 then 'tier2'
+            when lifetime_value between 1000000 and 1999999 then 'tier3'
+            when lifetime_value between 0 and 999999 then 'tier4' 
+        end as tier_name
+    from customer
+        inner join orders
+            on customer.customer_key = orders.customer_key
+    group by 1
+)
+
+select * from final
+    )
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.customer_tier"} */
+ Succeeded [  6.60s] model dbt_lbk.customer_tier (table)
+21:10:14.716318 [debug]: Query executed on node model.analytics.dim_customers:
+select * from (
+        
+
+with customer as (
+
+    select * from analytics.dbt_lbk.stg_tpch_customers
+
+),
+nation as (
+
+    select * from analytics.dbt_lbk.stg_tpch_nations
+),
+region as (
+
+    select * from analytics.dbt_lbk.stg_tpch_regions
+
+),
+customer_flags as (
+    select * from analytics.dbt_lbk.customer_flags
+),
+
+final as (
+    select 
+        customer.customer_key,
+        customer.name,
+        customer.address,
+        --- Break the contract 
+        -- nation.nation_key as nation_key, 
+        nation.name as nation,
+        --- Break the contract again
+        -- region.region_key as region_key,
+        region.name as region,
+        customer.phone_number,
+        customer.account_balance,
+        customer.market_segment,
+        customer_flags.lifetime_value,
+        customer_flags.is_high_value,
+        customer_flags.is_mid_value,
+        customer_flags.is_low_value
+    from
+        customer
+        inner join nation
+            on customer.nation_key = nation.nation_key
+        inner join region
+            on nation.region_key = region.region_key
+        left join customer_flags
+            on customer.customer_key = customer_flags.customer_key
+)
+select 
+    *
+from
+    final
+order by
+    customer_key
+    ) as __dbt_sbq
+    where false
+    limit 0
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_customers"} */
+21:10:14.767431 [debug]: Query executed on node model.analytics.inc_orders:
+create or replace transient  table analytics.dbt_lbk.inc_orders
+    
+    
+    
+    as (
+
+select * from analytics.dbt_lbk.raw_orders
+
+
+    )
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.inc_orders"} */
+21:10:14.768057 [debug]: Applying DROP to: analytics.dbt_lbk.inc_orders__dbt_tmp
+21:10:14.859904 [debug]: Query executed on node model.analytics.order_items:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.order_items"} */
+21:10:14.860320 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "order_items", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '' after materialization.
+21:10:14.945303 [debug]: Query executed on node model.analytics.dim_customers:
+select * from (
+        select
+    
+      
+    cast(null as int)
+     as customer_key, 
+      
+    cast(null as varchar(25))
+     as region, 
+      
+    cast(null as varchar(25))
+     as name, 
+      
+    cast(null as varchar(40))
+     as address, 
+      
+    cast(null as varchar(25))
+     as nation, 
+      
+    cast(null as varchar(15))
+     as phone_number, 
+      
+    cast(null as number(38,0))
+     as account_balance, 
+      
+    cast(null as varchar(10))
+     as market_segment, 
+      
+    cast(null as int)
+     as lifetime_value, 
+      
+    cast(null as varchar(1))
+     as is_high_value, 
+      
+    cast(null as varchar(1))
+     as is_mid_value, 
+      
+    cast(null as varchar(1))
+     as is_low_value
+    ) as __dbt_sbq
+    where false
+    limit 0
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_customers"} */
+21:10:14.948732 [debug]: Writing runtime sql for node "model.analytics.dim_customers"
+21:10:14.985926 [debug]: Query executed on node model.analytics.inc_orders:
+drop view if exists analytics.dbt_lbk.inc_orders__dbt_tmp cascade
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.inc_orders"} */
+ Succeeded [  5.90s] model dbt_lbk.inc_orders (incremental)
+21:10:15.145198 [debug]: Query executed on node model.analytics.order_items:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "order_items", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.order_items"} */
+21:10:15.146752 [debug]: Writing runtime sql for node "model.analytics.order_items"
+21:10:15.834067 [debug]: Query executed on node model.analytics.order_items:
+create or replace   view analytics.dbt_lbk.order_items
+  
+   as (
+    
+with orders as (
+    
+    select * from analytics.dbt_lbk.stg_tpch_orders
+
+),
+
+line_item as (
+
+    select * from analytics.dbt_lbk.stg_tpch_line_items
+
+)
+select 
+
+    line_item.order_item_key,
+    orders.order_key,
+    orders.customer_key,
+    line_item.part_key,
+    line_item.supplier_key,
+    orders.order_date,
+    orders.status_code as order_status_code,
+    
+    
+    line_item.is_return,
+    
+    line_item.line_number,
+    line_item.status_code as order_item_status_code,
+    line_item.ship_date,
+    line_item.commit_date,
+    line_item.receipt_date,
+    line_item.ship_mode,
+    line_item.extended_price,
+    line_item.quantity,
+    
+    -- extended_price is actually the line item total,
+    -- so we back out the extended price per item
+    (line_item.extended_price/nullif(line_item.quantity, 0))::decimal(16,3) as base_price,
+    line_item.discount_percentage,
+    (base_price * (1 - line_item.discount_percentage))::decimal(16,3) as discounted_price,
+
+    line_item.extended_price as gross_item_sales_amount,
+    (line_item.extended_price * (1 - line_item.discount_percentage))::decimal(16,3) as discounted_item_sales_amount,
+    -- We model discounts as negative amounts
+    (-1 * line_item.extended_price * line_item.discount_percentage)::decimal(16,3) as item_discount_amount,
+    line_item.tax_rate,
+    ((gross_item_sales_amount + item_discount_amount) * line_item.tax_rate)::decimal(16,3) as item_tax_amount,
+    (
+        gross_item_sales_amount + 
+        item_discount_amount + 
+        item_tax_amount
+    )::decimal(16,3) as net_item_sales_amount
+
+from
+    orders
+inner join line_item
+        on orders.order_key = line_item.order_key
+order by
+    orders.order_date
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.order_items"} */
+ Succeeded [  3.12s] model dbt_lbk.order_items (view)
+21:10:15.969597 [debug]: Query executed on node model.analytics.dim_suppliers:
+create or replace transient  table analytics.dbt_lbk.dim_suppliers
+    
+    
+    
+    as (
+
+with supplier as (
+
+    select * from analytics.dbt_lbk.stg_tpch_suppliers
+
+),
+nation as (
+
+    select * from analytics.dbt_lbk.stg_tpch_nations
+),
+region as (
+
+    select * from analytics.dbt_lbk.stg_tpch_regions
+
+),
+final as (
+
+    select 
+        supplier.supplier_key,
+        supplier.supplier_name,
+        supplier.supplier_address,
+        nation.name as nation,
+        region.name as region,
+        supplier.phone_number,
+        supplier.account_balance
+    from
+        supplier
+    inner join nation
+            on supplier.nation_key = nation.nation_key
+    inner join region 
+            on nation.region_key = region.region_key
+)
+
+select * from final
+    )
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_suppliers"} */
+21:10:16.081637 [debug]: Query executed on node model.analytics.fct_order_items:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.fct_order_items"} */
+21:10:16.081977 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "fct_order_items", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'. Will reset to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_customers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}' after materialization.
+21:10:16.095323 [debug]: Query executed on node model.analytics.fct_orders:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.fct_orders"} */
+21:10:16.096536 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "fct_orders", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'. Will reset to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "dim_parts", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}' after materialization.
+21:10:16.300076 [debug]: Query executed on node model.analytics.dim_suppliers:
+grant select on analytics.dbt_lbk.dim_suppliers to dashboard_user
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_suppliers"} */
+ Succeeded [  5.61s] model dbt_lbk.dim_suppliers (table)
+21:10:16.362561 [debug]: Query executed on node model.analytics.dim_customers:
+create or replace  table analytics.dbt_lbk.dim_customers
+    
+  (
+    customer_key int,
+    region varchar(25),
+    name varchar(25),
+    address varchar(40),
+    nation varchar(25),
+    phone_number varchar(15),
+    account_balance number(38,0),
+    market_segment varchar(10),
+    lifetime_value int,
+    is_high_value varchar(1),
+    is_mid_value varchar(1),
+    is_low_value varchar(1)
+    
+    )
+
+    
+    
+    
+    as (
+    select customer_key, region, name, address, nation, phone_number, account_balance, market_segment, lifetime_value, is_high_value, is_mid_value, is_low_value
+    from (
+        
+
+with customer as (
+
+    select * from analytics.dbt_lbk.stg_tpch_customers
+
+),
+nation as (
+
+    select * from analytics.dbt_lbk.stg_tpch_nations
+),
+region as (
+
+    select * from analytics.dbt_lbk.stg_tpch_regions
+
+),
+customer_flags as (
+    select * from analytics.dbt_lbk.customer_flags
+),
+
+final as (
+    select 
+        customer.customer_key,
+        customer.name,
+        customer.address,
+        --- Break the contract 
+        -- nation.nation_key as nation_key, 
+        nation.name as nation,
+        --- Break the contract again
+        -- region.region_key as region_key,
+        region.name as region,
+        customer.phone_number,
+        customer.account_balance,
+        customer.market_segment,
+        customer_flags.lifetime_value,
+        customer_flags.is_high_value,
+        customer_flags.is_mid_value,
+        customer_flags.is_low_value
+    from
+        customer
+        inner join nation
+            on customer.nation_key = nation.nation_key
+        inner join region
+            on nation.region_key = region.region_key
+        left join customer_flags
+            on customer.customer_key = customer_flags.customer_key
+)
+select 
+    *
+from
+    final
+order by
+    customer_key
+    ) as model_subq
+    )
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_customers"} */
+21:10:16.368512 [debug]: Query executed on node model.analytics.fct_orders:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "fct_orders", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.fct_orders"} */
+21:10:16.370109 [debug]: Writing runtime sql for node "model.analytics.fct_orders"
+21:10:16.406671 [debug]: Query executed on node model.analytics.fct_order_items:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "fct_order_items", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.fct_order_items"} */
+21:10:16.408296 [debug]: Writing runtime sql for node "model.analytics.fct_order_items"
+21:10:16.660221 [debug]: Query executed on node model.analytics.dim_customers:
+grant select on analytics.dbt_lbk.dim_customers to dashboard_user
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.dim_customers"} */
+ Succeeded [  3.05s] model dbt_lbk.dim_customers (table)
+21:10:18.084343 [debug]: Query executed on node model.analytics.fct_orders:
+create or replace transient  table analytics.dbt_lbk.fct_orders
+    
+    
+    
+    as (
+
+with orders as (
+    
+    select * from analytics.dbt_lbk.stg_tpch_orders 
+
+),
+order_item as (
+    
+    select * from analytics.dbt_lbk.order_items
+
+),
+order_item_summary as (
+
+    select 
+        order_key,
+        sum(gross_item_sales_amount) as gross_item_sales_amount,
+        sum(item_discount_amount) as item_discount_amount,
+        sum(item_tax_amount) as item_tax_amount,
+        sum(net_item_sales_amount) as net_item_sales_amount,
+        count_if( is_return = true ) as return_count
+    from order_item
+    group by
+        1
+),
+final as (
+
+    select 
+
+        orders.order_key, 
+        orders.order_date,
+        orders.order_time,
+        orders.customer_key,
+        orders.status_code,
+        orders.priority_code,
+        orders.clerk_name,
+        orders.ship_priority,     
+        1 as order_count,
+        order_item_summary.return_count,             
+        order_item_summary.gross_item_sales_amount,
+        order_item_summary.item_discount_amount,
+        order_item_summary.item_tax_amount,
+        order_item_summary.net_item_sales_amount
+    from
+        orders
+        inner join order_item_summary
+            on orders.order_key = order_item_summary.order_key
+)
+select 
+    *
+from
+    final
+
+order by
+    order_date
+    )
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.fct_orders"} */
+21:10:18.349224 [debug]: Query executed on node model.analytics.fct_orders:
+grant select on analytics.dbt_lbk.fct_orders to dashboard_user
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.fct_orders"} */
+ Succeeded [  2.51s] model dbt_lbk.fct_orders (table)
+21:10:18.695959 [debug]: Query executed on node model.analytics.fct_order_items:
+create or replace transient  table analytics.dbt_lbk.fct_order_items
+    
+    
+    
+    as (
+
+with order_item as (
+    
+    select * from analytics.dbt_lbk.order_items
+
+),
+part_supplier as (
+    
+    select * from analytics.dbt_lbk.part_suppliers
+
+),
+final as (
+    select 
+        order_item.order_item_key,
+        order_item.order_key,
+        order_item.order_date,
+        order_item.customer_key,
+        order_item.part_key,
+        order_item.supplier_key,
+        order_item.order_item_status_code,
+        order_item.is_return,
+        order_item.line_number,
+        order_item.ship_date,
+        order_item.commit_date,
+        order_item.receipt_date,
+        order_item.ship_mode,
+        part_supplier.cost as supplier_cost,
+        
+        order_item.base_price,
+        order_item.discount_percentage,
+        order_item.discounted_price,
+        order_item.tax_rate,
+        part_supplier.nation_key,
+        1 as order_item_count,
+        order_item.quantity,
+        order_item.gross_item_sales_amount,
+        order_item.discounted_item_sales_amount,
+        order_item.item_discount_amount,
+        order_item.item_tax_amount,
+        order_item.net_item_sales_amount
+
+    from
+        order_item
+        inner join part_supplier
+            on order_item.part_key = part_supplier.part_key and
+                order_item.supplier_key = part_supplier.supplier_key
+
+)
+select 
+    *
+from
+    final
+order by
+    order_date
+    )
+
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.fct_order_items"} */
+21:10:18.963013 [debug]: Query executed on node model.analytics.fct_order_items:
+grant select on analytics.dbt_lbk.fct_order_items to dashboard_user
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.fct_order_items"} */
+ Succeeded [  3.13s] model dbt_lbk.fct_order_items (table)
+21:10:19.211897 [debug]: Query executed on node model.analytics.agg_ship_modes_hardcoded_pivot:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.agg_ship_modes_hardcoded_pivot"} */
+21:10:19.212279 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "agg_ship_modes_hardcoded_pivot", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "inc_orders", "dbt_materialization_type": "incremental", "dbt_incremental_full_refresh": "false"}' after materialization.
+21:10:19.218579 [debug]: Query executed on node model.analytics.monthly_gross_revenue:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.monthly_gross_revenue"} */
+21:10:19.218899 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "monthly_gross_revenue", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "customer_tier", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}' after materialization.
+21:10:19.430880 [debug]: Query executed on node model.analytics.use_variables:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.use_variables"} */
+21:10:19.431036 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "use_variables", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "customer_flags", "dbt_materialization_type": "table", "dbt_incremental_full_refresh": "false"}' after materialization.
+21:10:19.478569 [debug]: Query executed on node model.analytics.agg_daily_returned_orders:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.agg_daily_returned_orders"} */
+21:10:19.478794 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "agg_daily_returned_orders", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "part_suppliers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}' after materialization.
+21:10:19.563400 [debug]: Query executed on node model.analytics.agg_returned_orders_by_month:
+show parameters like 'query_tag' in session
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.agg_returned_orders_by_month"} */
+21:10:19.563760 [debug]: Setting query_tag to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "agg_returned_orders_by_month", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'. Will reset to '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "stg_tpch_suppliers", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}' after materialization.
+21:10:19.611159 [debug]: Query executed on node model.analytics.agg_ship_modes_hardcoded_pivot:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "agg_ship_modes_hardcoded_pivot", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.agg_ship_modes_hardcoded_pivot"} */
+21:10:19.612396 [debug]: Writing runtime sql for node "model.analytics.agg_ship_modes_hardcoded_pivot"
+21:10:19.680069 [debug]: Query executed on node model.analytics.monthly_gross_revenue:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "monthly_gross_revenue", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.monthly_gross_revenue"} */
+21:10:19.681633 [debug]: Writing runtime sql for node "model.analytics.monthly_gross_revenue"
+21:10:19.715475 [debug]: Query executed on node model.analytics.use_variables:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "use_variables", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.use_variables"} */
+21:10:19.716794 [debug]: Writing runtime sql for node "model.analytics.use_variables"
+21:10:19.744277 [debug]: Query executed on node model.analytics.agg_daily_returned_orders:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "agg_daily_returned_orders", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.agg_daily_returned_orders"} */
+21:10:19.746943 [debug]: Writing runtime sql for node "model.analytics.agg_daily_returned_orders"
+21:10:20.353072 [debug]: Query executed on node model.analytics.agg_ship_modes_hardcoded_pivot:
+create or replace   view analytics.dbt_lbk.agg_ship_modes_hardcoded_pivot
+  
+   as (
+    /* Create a pivot table with hard-coded columns based on a query of the ship modes that are in the system */
+
+with merged as (
+    select
+        date_part('year', order_date) as order_year,
+        ship_mode,
+        gross_item_sales_amount
+    from analytics.dbt_lbk.fct_order_items
+)
+
+select
+    * 
+from
+    merged
+    -- have to manually map strings in the pivot operation
+    pivot(sum(gross_item_sales_amount) for ship_mode in (
+        'AIR',
+        'REG AIR',
+        'FOB',
+        'RAIL',
+        'MAIL',
+        'SHIP',
+        'TRUCK'
+    )) as p 
+
+order by order_year
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.agg_ship_modes_hardcoded_pivot"} */
+ Succeeded [  1.39s] model dbt_lbk.agg_ship_modes_hardcoded_pivot (view)
+21:10:20.354414 [debug]: Query executed on node model.analytics.agg_returned_orders_by_month:
+alter session set query_tag = '{"dbt_environment_name": "dev", "dbt_job_id": "not set", "dbt_run_id": "not set", "dbt_run_reason": "development_and_testing", "dbt_project_name": "analytics", "dbt_user_name": "lee@fishtownanalytics.com", "dbt_model_name": "agg_returned_orders_by_month", "dbt_materialization_type": "view", "dbt_incremental_full_refresh": "false"}'
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.agg_returned_orders_by_month"} */
+21:10:20.355709 [debug]: Writing runtime sql for node "model.analytics.agg_returned_orders_by_month"
+21:10:20.367453 [debug]: Query executed on node model.analytics.monthly_gross_revenue:
+create or replace   view analytics.dbt_lbk.monthly_gross_revenue
+  
+   as (
+    select 
+    date_trunc(MONTH, fct_order_items.order_date) as order_month
+    , sum(fct_order_items.gross_item_sales_amount) as gross_revenue
+from analytics.dbt_lbk.fct_order_items
+group by 1
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.monthly_gross_revenue"} */
+ Succeeded [  1.40s] model dbt_lbk.monthly_gross_revenue (view)
+21:10:20.502755 [debug]: Query executed on node model.analytics.agg_daily_returned_orders:
+create or replace   view analytics.dbt_lbk.agg_daily_returned_orders
+  
+   as (
+    
+with fct_order_items as (
+    select * from analytics.dbt_lbk.fct_order_items
+),
+
+final as (
+    select
+        fct_order_items.order_date as ds
+        , cast(1.0*count(case when is_return then order_item_key else null end) as float) as y
+    from fct_order_items
+    group by 1
+    order by 1 desc
+)
+
+select * from final  
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.agg_daily_returned_orders"} */
+ Succeeded [  1.54s] model dbt_lbk.agg_daily_returned_orders (view)
+21:10:20.513350 [debug]: Query executed on node model.analytics.use_variables:
+create or replace   view analytics.dbt_lbk.use_variables
+  
+   as (
+    
+-- This is here to show that data older than start_date exists - run this first
+-- select min(order_date) from analytics.dbt_lbk.fct_order_items
+
+-- start_date is defined in the dbt_project.yml 
+-- to illustrate overriding variables from the command line, run dbt run -m use_variables --vars '{"start_date": "1996-01-01"}'
+select * from analytics.dbt_lbk.fct_order_items where order_date >= '1999-01-01'
+
+
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.use_variables"} */
+ Succeeded [  1.55s] model dbt_lbk.use_variables (view)
+21:10:20.772662 [debug]: Query executed on node model.analytics.agg_returned_orders_by_month:
+create or replace   view analytics.dbt_lbk.agg_returned_orders_by_month
+  
+   as (
+    with fct_order_items as (
+    select * from analytics.dbt_lbk.fct_order_items
+),
+
+final as (
+    select
+        date_trunc(MONTH, fct_order_items.order_date) as order_month 
+        , count(case when is_return then order_item_key else null end) as returned_orders
+        , 1.0* returned_orders / nullif (
+            count(order_item_key)
+            , 0
+        ) as return_rate
+        , count(*) as row_count
+    from fct_order_items
+    group by 1
+    order by 1 desc
+)
+
+select * from final  
+  )
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"analytics","target_name":"dev","node_id":"model.analytics.agg_returned_orders_by_month"} */
+ Succeeded [  1.81s] model dbt_lbk.agg_returned_orders_by_month (view)
+21:10:20.919183 [info ]: 
+==================== Execution Summary =====================
+Finished 'run' successfully for target 'dev' [26.5s]
+Processed: 26 models
+Summary: 26 total | 26 success

@@ -1,0 +1,132 @@
+[
+  {
+    "macro_span": {
+      "start": {
+        "line": 1,
+        "col": 1,
+        "index": 0
+      },
+      "stop": {
+        "line": 3,
+        "col": 4,
+        "index": 42
+      }
+    },
+    "expanded_span": {
+      "start": {
+        "line": 1,
+        "col": 1,
+        "index": 0
+      },
+      "stop": {
+        "line": 1,
+        "col": 1,
+        "index": 0
+      }
+    }
+  },
+  {
+    "macro_span": {
+      "start": {
+        "line": 14,
+        "col": 1,
+        "index": 197
+      },
+      "stop": {
+        "line": 14,
+        "col": 53,
+        "index": 249
+      }
+    },
+    "expanded_span": {
+      "start": {
+        "line": 7,
+        "col": 1,
+        "index": 6
+      },
+      "stop": {
+        "line": 7,
+        "col": 1,
+        "index": 6
+      }
+    }
+  },
+  {
+    "macro_span": {
+      "start": {
+        "line": 15,
+        "col": 1,
+        "index": 250
+      },
+      "stop": {
+        "line": 15,
+        "col": 53,
+        "index": 302
+      }
+    },
+    "expanded_span": {
+      "start": {
+        "line": 8,
+        "col": 1,
+        "index": 7
+      },
+      "stop": {
+        "line": 8,
+        "col": 1,
+        "index": 7
+      }
+    }
+  },
+  {
+    "macro_span": {
+      "start": {
+        "line": 18,
+        "col": 1,
+        "index": 305
+      },
+      "stop": {
+        "line": 18,
+        "col": 30,
+        "index": 334
+      }
+    },
+    "expanded_span": {
+      "start": {
+        "line": 11,
+        "col": 1,
+        "index": 10
+      },
+      "stop": {
+        "line": 11,
+        "col": 1,
+        "index": 10
+      }
+    }
+  },
+  {
+    "macro_span": {
+      "start": {
+        "line": 20,
+        "col": 1,
+        "index": 336
+      },
+      "stop": {
+        "line": 22,
+        "col": 13,
+        "index": 394
+      }
+    },
+    "expanded_span": {
+      "start": {
+        "line": 13,
+        "col": 1,
+        "index": 12
+      },
+      "stop": {
+        "line": 21,
+        "col": 1,
+        "index": 40
+      }
+    }
+  }
+]
